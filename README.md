@@ -43,7 +43,28 @@ For the client side, we used privoxy as a forward proxy client, which routes the
 # Runtime environments
 ## Server (on RPI4B)
 * Instructions for building Docker container
+  * For the Runtime container, Dockerfile is [here](Client/Dockerfile)
+  * Continuing from the build process, we need to enable the service created in build step.
+  * To expose the nginx server on port 80, we need to run `EXPOSE 80 443`
+  * Final step is to make nginx process run, we can use the command `CMD ["nginx", "-g", "daemon off;"]`
+  * Now nginx will be up and running as a docker.
 * Instructions for running setup scripts in container
+  * To make the Nginx run as a service, we need to edit the file `/lib/systemd/system/nginx.service` with the following content
+  ```
+  [Unit]
+  Description=The NGINX HTTP and reverse proxy server
+  After=syslog.target network.target remote-fs.target nss-lookup.target
+  [Service]
+  Type=forking
+  PIDFile=/var/run/nginx.pid
+  ExecStartPre=/usr/sbin/nginx -t
+  ExecStart=/usr/sbin/nginx
+  ExecReload=/bin/kill -s HUP $MAINPID
+  ExecStop=/bin/kill -s QUIT $MAINPID
+  PrivateTmp=true
+  [Install]
+  WantedBy=multi-user.target
+  ```
 ## Client (on VM)
 * Instructions for building Docker container
 * Instructions for running setup scripts in container
