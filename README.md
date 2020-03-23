@@ -94,3 +94,10 @@ For the client side, we used privoxy as a forward proxy client, which routes the
     /usr/local/sbin/privoxy --no-daemon --pidfile "${PIDFILE}" "${CONFFILE}"
     ```
   * Now privoxy service will be up and running on port 8118.
+  
+## Screenshots
+![Proxy Configuration](Screenshots/Screen%20Shot%202020-03-18%20at%206.19.59%20PM.png)
+![Proxy Configuration](Screenshots/Screen%20Shot%202020-03-18%20at%206.20.05%20PM.png)
+![Proxy Configuration](Screenshots/Screen%20Shot%202020-03-18%20at%206.21.14%20PM.png)
+![Proxy Configuration](Screenshots/Screen%20Shot%202020-03-18%20at%206.21.27%20PM.png)
+	
