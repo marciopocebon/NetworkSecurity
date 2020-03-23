@@ -43,7 +43,7 @@ For the client side, we used privoxy as a forward proxy client, which routes the
 # Runtime environments
 ## Server (on RPI4B)
 * Instructions for building Docker container
-  * For the Runtime container, Dockerfile is [here](Client/Dockerfile)
+  * For the Runtime container, Dockerfile is [here](Server/Dockerfile)
   * Continuing from the build process, we need to enable the service created in build step.
   * To expose the nginx server on port 80, we need to run `EXPOSE 80 443`
   * Final step is to make nginx process run, we can use the command `CMD ["nginx", "-g", "daemon off;"]`
@@ -65,6 +65,32 @@ For the client side, we used privoxy as a forward proxy client, which routes the
   [Install]
   WantedBy=multi-user.target
   ```
+  * With this, we can either start the service `sudo systemctl start nginx` or `sudo nginx`
+  * Nginx will be listening on port 80.
 ## Client (on VM)
 * Instructions for building Docker container
+  * For the Runtime container, Dockerfile is [here](Client/Dockerfile)
+  * Continuing from the build process, we need to run a [file](Client/privoxy-start.sh) which contains the initial start command.
+  * To expose the privoxy server on port 8118, we need to run `EXPOSE 8118`
 * Instructions for running setup scripts in container
+  * Now, in order for the privoxy to work, we need to supply the config file `CONFFILE=/etc/privoxy/config`
+  * Config file used for this project can be found [here](Client/config), this file contains all the setting for forwarding traffic, socks5 settings etc.
+  * To start the privoxy service we need to execute the following script.
+    ```
+      
+    #!/bin/sh
+
+    CONFFILE=/etc/privoxy/config
+    PIDFILE=/var/run/privoxy.pid
+
+
+    if [ ! -f "${CONFFILE}" ]; then
+	     echo "Configuration file ${CONFFILE} not found!"
+	     exit 1
+    fi
+
+    cd /usr/local/etc/privoxy
+    cp -R * /etc/privoxy/
+    /usr/local/sbin/privoxy --no-daemon --pidfile "${PIDFILE}" "${CONFFILE}"
+    ```
+  * Now privoxy service will be up and running on port 8118.
