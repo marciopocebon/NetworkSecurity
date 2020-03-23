@@ -32,4 +32,4 @@ RUN mkdir -p /usr/local/src/nginx/
 WORKDIR /usr/local/src/nginx/
 COPY build_nginx.sh nginx.sh
 RUN chmod +x nginx.sh
-
+RUN ./nginx.sh
