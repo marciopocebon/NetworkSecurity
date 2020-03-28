@@ -101,3 +101,19 @@ For the client side, we used privoxy as a forward proxy client, which routes the
 ![Proxy Configuration](Screenshots/Screen%20Shot%202020-03-18%20at%206.21.14%20PM.png)
 ![Proxy Configuration](Screenshots/Screen%20Shot%202020-03-18%20at%206.21.27%20PM.png)
 	
+## Network Analysis
+
+We configured the proxy settings in the firefox and captured the network traffic as attached as Output.pcap
+
+![](Screenshots/Screen%20Shot%202020-03-27%20at%2010.24.29%20PM.png)
+All the interactions between the server and client are captured in this network traffic.
+![](Screenshots/Screen%20Shot%202020-03-27%20at%2010.26.00%20PM.png)
+In screenshot shows one of the TCP Flow, here the request is forwarded from the privoxy to the Nginx server. We can observe the response from the nginx server, indicating proper privoxy setup.
+![](Screenshots/Screen%20Shot%202020-03-27%20at%2010.24.29%20PM.png)
+In this screenshot, we can see that the source port is 80 and this transaction confirms that we successfully connected to Docker container which is listening on Port 80.
+
+To communicate between the two docker containers, we created a isolate network and assigned hostnames to make the Docker containers talk with each other.
+
+### Team:
+SaiKiranUppu @[uppusaikiran](https://github.com/uppusaikiran) , Debolina De @[Ddecresth](https://github.com/Ddecresth) , Apoorv Dayal @[Apoorv13](https://github.com/Apoorv13)
+
